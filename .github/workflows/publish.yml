@@ -27,9 +27,18 @@ jobs:
         run: |
           cd ./YMCL.Main
           sudo su
-          pupnet --runtime linux-x64 --kind appimage -o YMCL.linux.x64.AppImage -y
-          pupnet --runtime linux-arm --kind appimage -o YMCL.linux.arm.AppImage -y
-          pupnet --runtime linux-arm64 --kind appimage -o YMCL.linux.arm64.AppImage -y
+          pupnet --runtime linux-x64 --kind appimage -o YMCL.Main.linux.x64.AppImage -y
+          pupnet --runtime linux-arm --kind appimage -o YMCL.Main.linux.arm.AppImage -y
+          pupnet --runtime linux-arm64 --kind appimage -o YMCL.Main.linux.arm64.AppImage -y
+      - name: Build-MacOsApp
+        run: |
+          dotnet restore -r osx-x64
+          dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64  -property:Configuration=Release -p:SelfContained=true
+          dotnet restore -r osx-arm64
+          dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-arm64  -property:Configuration=Release -p:SelfContained=true
+          cd ./bin/Release/net8.0
+          zip -9 -r ./YMCL.Main.osx.mac.x64.app.zip ./osx-x64/publish/YMCL.app
+          zip -9 -r ./YMCL.Main.osx.mac.arm64.app.zip ./osx-arm64/publish/YMCL.app
       - name: Publish
         uses: marvinpinto/action-automatic-releases@latest
         with:
