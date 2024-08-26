@@ -24,9 +24,10 @@ jobs:
       - name: Build-AppImage
         run: |
           cd ./YMCL.Main
-          sudo pupnet --runtime linux-x64 --kind appimage -y
-          sudo pupnet --runtime linux-arm --kind appimage -y
-          sudo pupnet --runtime linux-arm64 --kind appimage -y
+          sudo su
+          pupnet --runtime linux-x64 --kind appimage -y
+          pupnet --runtime linux-arm --kind appimage -y
+          pupnet --runtime linux-arm64 --kind appimage -y
       - name: Rename
         run: |
           mv ./YMCL.Main/bin/Release/net8.0/win-x86/publish/YMCL.Main.exe ./YMCL.Main/bin/Release/net8.0/win-x86/publish/YMCL.Main.win.x86.exe
