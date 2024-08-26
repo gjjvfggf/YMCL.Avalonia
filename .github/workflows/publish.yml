@@ -50,3 +50,5 @@ jobs:
           prerelease: false
           files: |
             YMCL.Main/Deploy/OUT/*
+            YMCL.Main/bin/Release/net8.0/YMCL.Main.osx.mac.x64.app.zip
+            YMCL.Main/bin/Release/net8.0/YMCL.Main.osx.mac.arm64.app.zip
