@@ -1,12 +1,14 @@
-name: Publish
+name: PublishOnLinux
 on:
   workflow_dispatch:
   push:
     branches: ["**"]
 
 jobs:
-  main:
+  linux:
     runs-on: ubuntu-latest
+    outputs:
+      v: ${{ steps.date.outputs.v }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -15,9 +17,8 @@ jobs:
       - name: Time
         id: date
         run: |
-          echo "date=$(date +'%Y-%m-%d.%H-%M-%S')" >> $GITHUB_OUTPUT
-          echo "$(date +'%Y-%m-%d.%H-%M')" > ./YMCL.Main/Public/Texts/DateTime.txt
-          echo "title=$(date +'%Y.%m.%d.%H.%M')" >> $GITHUB_OUTPUT
+          echo "::set-output name=v::$(date +'%Y.%m.%d.%H.%M')"
+          echo "${{ steps.date.outputs.v }}" > ./YMCL.Main/Public/Texts/DateTime.txt
       - name: Dependency
         run: |
           dotnet tool install -g KuiperZone.PupNet
@@ -48,8 +49,8 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.TOKEN }}"
-          title: "v${{ steps.date.outputs.title }}"
-          automatic_release_tag: "AutoPublish-${{ steps.date.outputs.date }}"
+          title: "v${{ steps.date.outputs.v }}"
+          automatic_release_tag: "AutoPublish-${{ steps.date.outputs.v }}"
           prerelease: false
           files: |
             YMCL.Main/Deploy/OUT/*

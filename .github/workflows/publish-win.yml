@@ -1,0 +1,43 @@
+name: PublishOnWin
+
+on:
+  workflow_run:
+    workflows:
+      - "PublishOnLinux"
+    types:
+      - completed
+
+jobs:
+  win:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Time
+        id: date
+        run: |
+          echo "v=${{ github.event.workflow_run.outputs.v }}" >> $GITHUB_ENV
+          echo "Version is $v"
+        shell: bash
+      - name: Dependency-InnoSetup
+        uses: ConorMacBride/install-package@v1
+        with:
+          choco: innosetup
+      - name: Dependency-Pupnet
+        run: |
+          dotnet tool install -g KuiperZone.PupNet
+      - name: Build
+        run: |
+          cd ./YMCL.Main
+          pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe
+          pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe
+          pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe
+      - name: Publish
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
+          title: "v${{ steps.date.outputs.title }}"
+          automatic_release_tag: "AutoPublish-${{ steps.date.outputs.date }}"
+          prerelease: false
+          files: |
+            YMCL.Main/Deploy/OUT/*
