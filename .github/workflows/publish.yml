@@ -21,6 +21,8 @@ jobs:
       - name: Dependency
         run: |
           dotnet tool install -g KuiperZone.PupNet
+          sudo apt-get update
+          sudo apt-get install fuse
       - name: Build-AppImage
         run: |
           cd ./YMCL.Main
