@@ -32,6 +32,7 @@ jobs:
           pupnet --runtime linux-arm64 --kind appimage -o YMCL.Main.linux.arm64.AppImage -y
       - name: Build-MacOsApp
         run: |
+          sudo su
           dotnet restore -r osx-x64
           dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64  -property:Configuration=Release -p:SelfContained=true
           dotnet restore -r osx-arm64
