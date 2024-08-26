@@ -27,9 +27,9 @@ jobs:
         run: |
           cd ./YMCL.Main
           sudo su
-          pupnet --runtime linux-x64 --kind appimage -y
-          pupnet --runtime linux-arm --kind appimage -y
-          pupnet --runtime linux-arm64 --kind appimage -y
+          pupnet --runtime linux-x64 --kind appimage -o YMCL.linux.x64.AppImage -y
+          pupnet --runtime linux-arm --kind appimage -o YMCL.linux.arm.AppImage -y
+          pupnet --runtime linux-arm64 --kind appimage -o YMCL.linux.arm64.AppImage -y
       - name: Rename
         run: |
           mv ./YMCL.Main/bin/Release/net8.0/win-x86/publish/YMCL.Main.exe ./YMCL.Main/bin/Release/net8.0/win-x86/publish/YMCL.Main.win.x86.exe
