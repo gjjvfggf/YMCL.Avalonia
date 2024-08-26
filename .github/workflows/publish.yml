@@ -16,9 +16,8 @@ jobs:
         id: date
         run: |
           echo "date=$(date +'%Y-%m-%d.%H-%M-%S')" >> $GITHUB_OUTPUT
-          echo "$(date +'%Y.%m.%d.%H.%M')" > ./YMCL.Main/Public/Texts/DateTime.txt
-          echo "title=$(date +'%Y.%m.%d.%H.%M')" >> $GITHUB_OUTPUT
-        shell: bash
+          echo "$(date +'%Y-%m-%d.%H-%M')" > ./YMCL.Main/Public/Texts/DateTime.txt
+          echo "title=$(date +'%Y-%m-%d.%H-%M')" >> $GITHUB_OUTPUT
       - name: Dependency
         run: |
           dotnet tool install -g KuiperZone.PupNet
