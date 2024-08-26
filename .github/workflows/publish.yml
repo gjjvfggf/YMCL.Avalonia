@@ -23,9 +23,9 @@ jobs:
           dotnet tool install -g KuiperZone.PupNet
       - name: Build-AppImage
         run: |
-          chmod +x ./YMCL.Main/BuildAppImage.sh
-          cd ./YMCL.Main
-          ./BuildAppImage.sh
+          pupnet --runtime linux-x64 --kind appimage -y
+          pupnet --runtime linux-arm --kind appimage -y
+          pupnet --runtime linux-arm64 --kind appimage -y
       - name: Rename
         run: |
           mv ./YMCL.Main/bin/Release/net8.0/win-x86/publish/YMCL.Main.exe ./YMCL.Main/bin/Release/net8.0/win-x86/publish/YMCL.Main.win.x86.exe
