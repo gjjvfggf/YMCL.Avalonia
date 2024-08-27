@@ -45,9 +45,9 @@ jobs:
         run: |
           cd ./YMCL.Main
           sudo su
-          pupnet --runtime linux-x64 --kind appimage -o YMCL.Main.linux.x64.AppImage -y
-          pupnet --runtime linux-arm --kind appimage -o YMCL.Main.linux.arm.AppImage -y
-          pupnet --runtime linux-arm64 --kind appimage -o YMCL.Main.linux.arm64.AppImage -y
+          pupnet --runtime linux-x64 --kind appimage -o YMCL.Main.linux.x64.AppImage -y --app-version ${{ needs.time.outputs.v }}
+          pupnet --runtime linux-arm --kind appimage -o YMCL.Main.linux.arm.AppImage -y --app-version ${{ needs.time.outputs.v }}
+          pupnet --runtime linux-arm64 --kind appimage -o YMCL.Main.linux.arm64.AppImage -y --app-version ${{ needs.time.outputs.v }}
       - name: Build-MacOsApp
         run: |
           cd ./YMCL.Main
@@ -93,9 +93,9 @@ jobs:
       - name: Build
         run: |
           cd ./YMCL.Main
-          pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe
-          pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe
-          pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe
+          pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe --app-version ${{ needs.time.outputs.v }}
+          pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe --app-version ${{ needs.time.outputs.v }}
+          pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe --app-version ${{ needs.time.outputs.v }}
       - name: UploadArtifacts
         uses: actions/upload-artifact@v3
         with:
