@@ -89,9 +89,7 @@ jobs:
           choco: innosetup
       - name: Chinesize-InnoSetup
         run: |
-          C:
-          cd "C:\Program Files (x86)"
-          dir
+          Copy-Item "./YMCL.Main/Public/Texts/Default.isl" "C:\Program Files (x86)\Inno Setup 6\Default.isl" -Force
       - name: Dependency-Pupnet
         run: |
           dotnet tool install -g KuiperZone.PupNet
