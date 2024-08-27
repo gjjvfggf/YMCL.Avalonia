@@ -89,8 +89,9 @@ jobs:
           choco: innosetup
       - name: Chinesize-InnoSetup
         run: |
+          C:
           cd "C:\Program Files"
-          dir /s /b | find /c /v ""
+          dir /s
         shell: bash
       - name: Dependency-Pupnet
         run: |
