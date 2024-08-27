@@ -104,7 +104,7 @@ jobs:
             YMCL.Main/Deploy/OUT/*
 
   publish:
-    needs: [linux, win]
+    needs: [linux, win, time]
     runs-on: ubuntu-latest
     steps:
       - name: Time
