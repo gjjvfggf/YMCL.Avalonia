@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       v: ${{ steps.date.outputs.time }}
-      y: ${{ steps.date.outputs.timew }}
-      md: ${{ steps.date.outputs.timew }}
-      hm: ${{ steps.date.outputs.timew }}
+      y: ${{ steps.date.outputs.y }}
+      md: ${{ steps.date.outputs.md }}
+      hm: ${{ steps.date.outputs.hm }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
