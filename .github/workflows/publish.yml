@@ -8,6 +8,8 @@ on:
 jobs:
   time:
     runs-on: ubuntu-latest
+    outputs:
+      v: ${{ steps.date.outputs.time }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,10 +18,10 @@ jobs:
       - name: Time
         id: date
         run: |
-          echo "::set-output name=v::$(date +'%Y.%m.%d.%H.%M')"
+          echo "::set-output name=time::$(date +'%Y.%m.%d.%H.%M')"
       - name: EchoTime
         run: |
-          echo "The current time is: ${{ steps.date.outputs.v }}"
+          echo "The current time is: ${{ steps.date.outputs.time }}"
 
   linux:
     runs-on: ubuntu-latest
