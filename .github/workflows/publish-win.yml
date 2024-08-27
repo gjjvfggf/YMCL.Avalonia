@@ -31,6 +31,7 @@ jobs:
           cd ./YMCL.Main
           pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe
           pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe
+          pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe
       - name: Publish
         uses: marvinpinto/action-automatic-releases@latest
         with:
