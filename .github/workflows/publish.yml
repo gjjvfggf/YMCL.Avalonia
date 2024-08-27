@@ -77,7 +77,7 @@ jobs:
           dotnet publish -r win-arm64 --self-contained true -p:PublishSingleFile=true
           mv ./bin/Release/net8.0/win-x86/publish/YMCL.Main.exe ./bin/Release/net8.0/win-x86/publish/YMCL.Main.win7↑.x86.exe
           mv ./bin/Release/net8.0/win-x64/publish/YMCL.Main.exe ./bin/Release/net8.0/win-x64/publish/YMCL.Main.win7↑.x64.exe
-          mv ./bin/Release/net8.0/win-arm64/publish/YMCL.Main.exe ./bin/Release/net8.0/win-arm64/publish/YMCL.Main.win7↑.x86.exe
+          mv ./bin/Release/net8.0/win-arm64/publish/YMCL.Main.exe ./bin/Release/net8.0/win-arm64/publish/YMCL.Main.win7↑.arm64.exe
           cd ./bin/Release/net8.0/
           cd ./win-x86/publish/
           zip -9 -r "../../YMCL.Main.win7↑.x86.exe.zip" "./YMCL.Main.win7↑.x86.exe"
