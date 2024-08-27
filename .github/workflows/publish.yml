@@ -17,6 +17,9 @@ jobs:
         id: date
         run: |
           echo "::set-output name=v::$(date +'%Y.%m.%d.%H.%M')"
+      - name: EchoTime
+        run: |
+          echo "The current time is: ${{ steps.date.outputs.v }}"
 
   linux:
     runs-on: ubuntu-latest
