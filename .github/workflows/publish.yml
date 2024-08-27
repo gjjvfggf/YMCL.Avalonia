@@ -89,7 +89,8 @@ jobs:
           choco: innosetup
       - name: Chinesize-InnoSetup
         run: |
-          where iscc
+          cd C:\Program Files
+          dir /s /b | find /c /v ""
       - name: Dependency-Pupnet
         run: |
           dotnet tool install -g KuiperZone.PupNet
