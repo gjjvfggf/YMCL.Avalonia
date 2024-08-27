@@ -90,7 +90,7 @@ jobs:
       - name: Chinesize-InnoSetup
         run: |
           C:
-          cd "C:\Program Files"
+          cd "C:\Program Files (x86)"
           dir
       - name: Dependency-Pupnet
         run: |
