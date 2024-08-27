@@ -62,6 +62,12 @@ jobs:
           dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-x64  -property:Configuration=Release -p:SelfContained=true
           dotnet restore -r osx-arm64
           dotnet msbuild -t:BundleApp -p:RuntimeIdentifier=osx-arm64  -property:Configuration=Release -p:SelfContained=true
+          dotnet publish -r win-x86 --self-contained true -p:PublishSingleFile=true
+          dotnet publish -r win-x64 --self-contained true -p:PublishSingleFile=true
+          dotnet publish -r win-arm64 --self-contained true -p:PublishSingleFile=true
+          mv ./bin/Release/net8.0/win-x86/publish/YMCL.Main.exe ./YMCL.Main/bin/Release/net8.0/win-x86/publish/YMCL.Main.win7.x86.exe
+          mv ./bin/Release/net8.0/win-x64/publish/YMCL.Main.exe ./YMCL.Main/bin/Release/net8.0/win-x64/publish/YMCL.Main.win7.x64.exe
+          mv ./bin/Release/net8.0/win-arm64/publish/YMCL.Main.exe ./YMCL.Main/bin/Release/net8.0/win-arm64/publish/YMCL.Main.win7.x86.exe
           cd ./bin/Release/net8.0/
           cd ./osx-x64/publish/
           zip -9 -r ../../YMCL.Main.osx.mac.x64.app.zip ./YMCL.app
