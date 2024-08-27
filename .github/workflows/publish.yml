@@ -92,7 +92,6 @@ jobs:
           C:
           cd "C:\Program Files"
           dir /s
-        shell: bash
       - name: Dependency-Pupnet
         run: |
           dotnet tool install -g KuiperZone.PupNet
