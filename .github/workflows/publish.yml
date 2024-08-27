@@ -107,6 +107,11 @@ jobs:
     needs: [linux, win]
     runs-on: ubuntu-latest
     steps:
+      - name: Time
+        id: gdate
+        run: |
+          echo "date=$(date +'%Y-%m-%d.%H-%M-%S')" >> $GITHUB_OUTPUT
+          echo "title=$(date +'%Y.%m.%d.%H.%M')" >> $GITHUB_OUTPUT
       - name: Download-LinuxArtifacts
         uses: actions/download-artifact@v3
         with:
@@ -125,7 +130,10 @@ jobs:
         with:
           repo_token: "${{ secrets.TOKEN }}"
           title: "v${{ needs.time.outputs.v }}"
-          automatic_release_tag: "AutoPublish-${{ needs.time.outputs.v }}"
+          automatic_release_tag: "AutoPublish-${{ steps.gdate.outputs.date }}"
           prerelease: false
           files: |
-            YMCL.Release/*
+            YMCL.Release/*.exe
+            YMCL.Release/Deploy/OUT/*.AppImage
+            YMCL.Release/bin/Release/net8.0/YMCL.Main.osx.mac.x64.app.zip
+            YMCL.Release/bin/Release/net8.0/YMCL.Main.osx.mac.arm64.app.zip
