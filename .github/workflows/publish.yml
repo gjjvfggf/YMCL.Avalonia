@@ -1,4 +1,5 @@
-name: PublishOnLinux
+name: Publish
+
 on:
   workflow_dispatch:
   push:
@@ -7,8 +8,6 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
-    outputs:
-      v: ${{ steps.date.outputs.v }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -56,3 +55,32 @@ jobs:
             YMCL.Main/Deploy/OUT/*
             YMCL.Main/bin/Release/net8.0/YMCL.Main.osx.mac.x64.app.zip
             YMCL.Main/bin/Release/net8.0/YMCL.Main.osx.mac.arm64.app.zip
+
+  win:
+    runs-on: windows-latest
+    needs: linux
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Dependency-InnoSetup
+        uses: ConorMacBride/install-package@v1
+        with:
+          choco: innosetup
+      - name: Dependency-Pupnet
+        run: |
+          dotnet tool install -g KuiperZone.PupNet
+      - name: Build
+        run: |
+          cd ./YMCL.Main
+          pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe
+          pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe
+          pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe
+      - name: Publish
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
+          title: "v${{ needs.linux.outputs.v }}"
+          automatic_release_tag: "AutoPublish-${{ needs.linux.outputs.v }}"
+          prerelease: false
+          files: |
+            YMCL.Main/Deploy/OUT/*
