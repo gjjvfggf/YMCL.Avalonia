@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       v: ${{ steps.date.outputs.time }}
-      w: ${{ steps.date.outputs.timew }}
+      y: ${{ steps.date.outputs.timew }}
+      md: ${{ steps.date.outputs.timew }}
+      hm: ${{ steps.date.outputs.timew }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -20,6 +22,7 @@ jobs:
         id: date
         run: |
           echo "::set-output name=time::$(date +'%Y.%m.%d.%H.%M.%S')"
+          echo "::set-output name=timew::$(date +'%Y%m%d%H%M%S')"
           echo "::set-output name=timew::$(date +'%Y%m%d%H%M%S')"
       - name: EchoTime
         run: |
@@ -47,9 +50,9 @@ jobs:
         run: |
           cd ./YMCL.Main
           sudo su
-          pupnet --runtime linux-x64 --kind appimage -o YMCL.Main.linux.x64.AppImage -y --app-version 1.0.${{ needs.time.outputs.w }}
-          pupnet --runtime linux-arm --kind appimage -o YMCL.Main.linux.arm.AppImage -y --app-version 1.0.${{ needs.time.outputs.w }}
-          pupnet --runtime linux-arm64 --kind appimage -o YMCL.Main.linux.arm64.AppImage -y --app-version 1.0.${{ needs.time.outputs.w }}
+          pupnet --runtime linux-x64 --kind appimage -o YMCL.Main.linux.x64.AppImage -y --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet --runtime linux-arm --kind appimage -o YMCL.Main.linux.arm.AppImage -y --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet --runtime linux-arm64 --kind appimage -o YMCL.Main.linux.arm64.AppImage -y --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
       - name: Build-MacOsApp
         run: |
           cd ./YMCL.Main
@@ -95,9 +98,9 @@ jobs:
       - name: Build
         run: |
           cd ./YMCL.Main
-          pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe --app-version 1.0.${{ needs.time.outputs.w }}
-          pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe --app-version 1.0.${{ needs.time.outputs.w }}
-          pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe --app-version 1.0.${{ needs.time.outputs.w }}
+          pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
+          pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe --app-version ${{ needs.time.outputs.y }}.${{ needs.time.outputs.md }}.${{ needs.time.outputs.hm }}
       - name: UploadArtifacts
         uses: actions/upload-artifact@v3
         with:
