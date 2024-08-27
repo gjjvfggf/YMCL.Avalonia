@@ -6,7 +6,7 @@ on:
     branches: ["**"]
 
 jobs:
-  linux:
+  time:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,7 +17,20 @@ jobs:
         id: date
         run: |
           echo "::set-output name=v::$(date +'%Y.%m.%d.%H.%M')"
-          echo "${{ steps.date.outputs.v }}" > ./YMCL.Main/Public/Texts/DateTime.txt
+
+  linux:
+    runs-on: ubuntu-latest
+    needs: time
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Time
+        id: date
+        run: |
+          echo "${{ needs.time.outputs.v }}" > ./YMCL.Main/Public/Texts/DateTime.txt
+          echo "Version is ${{ needs.time.outputs.v }}"
       - name: Dependency
         run: |
           dotnet tool install -g KuiperZone.PupNet
@@ -55,7 +68,7 @@ jobs:
 
   win:
     runs-on: windows-latest
-    needs: linux
+    needs: time
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -69,7 +82,8 @@ jobs:
       - name: Time
         id: date
         run: |
-          echo "${{ needs.linux.outputs.v }}" > ./YMCL.Main/Public/Texts/DateTime.txt
+          echo "${{ needs.time.outputs.v }}" > ./YMCL.Main/Public/Texts/DateTime.txt
+          echo "Version is ${{ needs.time.outputs.v }}"
         shell: bash
       - name: Build
         run: |
@@ -104,8 +118,8 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.TOKEN }}"
-          title: "v${{ needs.linux.outputs.v }}"
-          automatic_release_tag: "AutoPublish-${{ needs.linux.outputs.v }}"
+          title: "v${{ needs.time.outputs.v }}"
+          automatic_release_tag: "AutoPublish-${{ github.sha }}"
           prerelease: false
           files: |
             YMCL.Release/*
