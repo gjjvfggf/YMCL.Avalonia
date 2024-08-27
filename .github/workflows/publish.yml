@@ -62,11 +62,14 @@ jobs:
           cd ../../
           cd ./osx-arm64/publish/
           zip -9 -r ../../YMCL.Main.osx.mac.arm64.app.zip ./YMCL.app
-      - name: UploadArtifacts
-        uses: actions/upload-artifact@v3
+      - name: Publish Release
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          name: linux-artifacts
-          path: |
+          repo_token: "${{ secrets.TOKEN }}"
+          title: "v${{ needs.time.outputs.v }}"
+          automatic_release_tag: "AutoPublish-${{ github.sha }}"
+          prerelease: false
+          files: |
             YMCL.Main/Deploy/OUT/*
             YMCL.Main/bin/Release/net8.0/YMCL.Main.osx.mac.x64.app.zip
             YMCL.Main/bin/Release/net8.0/YMCL.Main.osx.mac.arm64.app.zip
@@ -96,29 +99,6 @@ jobs:
           pupnet -r win-x64 -k setup -y -o YMCL.Main.win.x64.installer.exe
           pupnet -r win-x86 -k setup -y -o YMCL.Main.win.x86.installer.exe
           pupnet -r win-arm64 -k setup -y -o YMCL.Main.win.arm64.installer.exe
-      - name: UploadArtifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: win-artifacts
-          path: |
-            YMCL.Main/Deploy/OUT/*
-
-  publish:
-    needs: [linux, win]
-    runs-on: windows-latest
-    steps:
-      - name: Download-LinuxArtifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: linux-artifacts
-          path: ./YMCL.Release/
-
-      - name: Download-WindowsArtifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: win-artifacts
-          path: ./YMCL.Release/
-
       - name: Publish Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -127,4 +107,30 @@ jobs:
           automatic_release_tag: "AutoPublish-${{ github.sha }}"
           prerelease: false
           files: |
-            YMCL.Release/*
+            YMCL.Main/Deploy/OUT/*
+
+#   publish:
+#     needs: [linux, win]
+#     runs-on: windows-latest
+#     steps:
+#       - name: Download-LinuxArtifacts
+#         uses: actions/download-artifact@v3
+#         with:
+#           name: linux-artifacts
+#           path: ./YMCL.Release/
+
+#       - name: Download-WindowsArtifacts
+#         uses: actions/download-artifact@v3
+#         with:
+#           name: win-artifacts
+#           path: ./YMCL.Release/
+
+#       - name: Publish Release
+#         uses: marvinpinto/action-automatic-releases@latest
+#         with:
+#           repo_token: "${{ secrets.TOKEN }}"
+#           title: "v${{ needs.time.outputs.v }}"
+#           automatic_release_tag: "AutoPublish-${{ github.sha }}"
+#           prerelease: false
+#           files: |
+#             YMCL.Release/*
