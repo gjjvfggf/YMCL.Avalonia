@@ -21,9 +21,10 @@ jobs:
       - name: Time
         id: date
         run: |
-          echo "::set-output name=time::$(date +'%Y.%m.%d.%H.%M.%S')"
-          echo "::set-output name=timew::$(date +'%Y%m%d%H%M%S')"
-          echo "::set-output name=timew::$(date +'%Y%m%d%H%M%S')"
+          echo "::set-output name=time::$(date +'%Y.%m.%d.%H.%M')"
+          echo "::set-output name=y::$(date +'%Y')"
+          echo "::set-output name=md::$(date +'%m%d')"
+          echo "::set-output name=hm::$(date +'%H%M')"
       - name: EchoTime
         run: |
           echo "The current time is: ${{ steps.date.outputs.time }}"
